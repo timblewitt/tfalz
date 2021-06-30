@@ -7,13 +7,38 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: TerraformInstaller@0
+  inputs:
+    terraformVersion: 'latest'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: TerraformCLI@0
+  inputs:
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)\alz'
+    backendType: 'azurerm'
+    backendServiceArm: 'Azure Landing Zone(ef620d24-2d5d-4e63-aaf9-e42cafb44dfb)'
+    ensureBackend: true
+    backendAzureRmResourceGroupName: 'rg-alz-uks-01'
+    backendAzureRmResourceGroupLocation: 'uksouth'
+    backendAzureRmStorageAccountName: 'saalzuks01'
+    backendAzureRmStorageAccountSku: 'Standard_LRS'
+    backendAzureRmContainerName: 'tfstate'
+    backendAzureRmKey: 'alz1.tfstate'
+    allowTelemetryCollection: true
+    
+- task: TerraformCLI@0
+  inputs:
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)\alz'
+    environmentServiceName: 'Azure Landing Zone(ef620d24-2d5d-4e63-aaf9-e42cafb44dfb)'
+    allowTelemetryCollection: true
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)\alz'
+    environmentServiceName: 'Azure Landing Zone(ef620d24-2d5d-4e63-aaf9-e42cafb44dfb)'
+    allowTelemetryCollection: true
