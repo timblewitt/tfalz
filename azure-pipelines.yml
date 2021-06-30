@@ -17,7 +17,7 @@ steps:
 - task: TerraformCLI@0
   inputs:
     command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)\alz'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
     backendType: 'azurerm'
     backendServiceArm: 'Azure Landing Zone(ef620d24-2d5d-4e63-aaf9-e42cafb44dfb)'
     ensureBackend: true
@@ -32,13 +32,13 @@ steps:
 - task: TerraformCLI@0
   inputs:
     command: 'plan'
-    workingDirectory: '$(System.DefaultWorkingDirectory)\alz'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
     environmentServiceName: 'Azure Landing Zone(ef620d24-2d5d-4e63-aaf9-e42cafb44dfb)'
     allowTelemetryCollection: true
 
 - task: TerraformCLI@0
   inputs:
     command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)\alz'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
     environmentServiceName: 'Azure Landing Zone(ef620d24-2d5d-4e63-aaf9-e42cafb44dfb)'
     allowTelemetryCollection: true
