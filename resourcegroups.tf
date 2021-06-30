@@ -17,3 +17,8 @@ resource "azurerm_resource_group" "management" {
   name     = "rg-${var.org}-${var.region_id}-${var.env}-management"
   location = var.region_name
 }
+
+resource "azurerm_resource_group" "temp1" {
+  name     = "rg-${var.org}-${var.region_id}-${var.env}-temp1"
+  location = var.region_name
+}
